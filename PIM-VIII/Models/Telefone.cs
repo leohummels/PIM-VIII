@@ -6,7 +6,6 @@ namespace PIM_VIII.Models
     public class Telefone
     {
         [Key]
-        [Required]
         public int Id { get; set; }
         public int Numero { get; set; }
         public int DDD { get; set; }

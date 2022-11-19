@@ -15,7 +15,6 @@ namespace PIM_VIII.DB
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
             modelBuilder.Entity<Pessoa>()
                 .HasOne(p => p.Endereco)
                 .WithOne();
@@ -23,11 +22,10 @@ namespace PIM_VIII.DB
                 .Navigation(p => p.Endereco)
                 .UsePropertyAccessMode(PropertyAccessMode.Property);
             modelBuilder.Entity<Telefone>()
-                .HasOne(t => t.TipoTelefone)
-                .WithMany();
+                .HasOne(x => x.TipoTelefone);
             modelBuilder.Entity<Telefone>()
-                 .Navigation(p => p.TipoTelefone)
-                 .UsePropertyAccessMode(PropertyAccessMode.Property);
+                .Navigation(p => p.TipoTelefone)
+                .UsePropertyAccessMode(PropertyAccessMode.Property);
         }
     }
 }

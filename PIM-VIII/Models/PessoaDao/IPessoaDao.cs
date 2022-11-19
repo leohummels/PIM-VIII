@@ -21,5 +21,10 @@ namespace PIM_VIII.Models.PessoaDao.PessoaDao
         {
             return new PessoaDTO();
         }
+
+        public List<Pessoa> ConsulteTodos()
+        {
+            return new List<Pessoa>();
+        }
     }
 }

@@ -12,7 +12,7 @@ namespace PIM_VIII.DB.Maps
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Numero).HasColumnName("NUMERO");
             builder.Property(x => x.DDD).HasColumnName("DDD");
-            builder.Property(x => x.TipoTelefone).HasColumnName("tipo");
+            builder.Property(x => x.TipoTelefone).HasColumnName("TIPO");
         }
     }
 }

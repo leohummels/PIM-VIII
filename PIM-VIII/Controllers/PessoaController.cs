@@ -4,6 +4,7 @@ using PIM_VIII.Models;
 using PIM_VIII.Models.DTO;
 using PIM_VIII.Models.PessoaDao.PessoaDao;
 using System.Linq;
+using System.Text.Json;
 
 namespace PIM_VIII.Controllers
 {
@@ -46,12 +47,12 @@ namespace PIM_VIII.Controllers
             return Ok(pessoa);
         }
 
-        [HttpGet]
-        public IEnumerable<Pessoa> ConsultaPessoas()
+        [HttpGet("All")]
+        public IActionResult ConsultaPessoas()
         {
-            return pessoas;
+            var listaPessoas = _pessoaDao.ConsulteTodos();
+            return Ok(listaPessoas);
         }
-
 
         [HttpPut]
         public void AlterePessoa(Pessoa Pessoa)

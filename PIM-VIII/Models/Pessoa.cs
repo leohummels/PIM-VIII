@@ -6,7 +6,6 @@ namespace PIM_VIII.Models
     public class Pessoa
     {
         [Key]
-        [Required]
         public int Id { get; set; }
         
         [Required(ErrorMessage = "Nome é um campo obrigatório")]
