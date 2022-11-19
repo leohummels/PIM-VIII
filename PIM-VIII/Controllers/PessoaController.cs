@@ -39,7 +39,7 @@ namespace PIM_VIII.Controllers
         [HttpGet("{Nome}")]
         public IActionResult ConsultaPessoa(string Nome)
         {
-            Pessoa? pessoa = pessoas.FirstOrDefault(x => x.Nome == Nome);
+            Pessoa? pessoa = _pessoaDao.Consulte(Nome);              
             if (pessoa == null)
             {
                 return NotFound($"{Nome} não encontrada.");

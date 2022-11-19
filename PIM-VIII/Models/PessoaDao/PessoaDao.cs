@@ -14,7 +14,7 @@ namespace PIM_VIII.Models.PessoaDao.PessoaDao
         public bool Exclua(PessoaDTO p)
         {
             var listaPessoa = _context.Pessoa.ToList();
-            var pessoa = listaPessoa.FirstOrDefault(x => x.Nome);
+            var pessoa = listaPessoa.FirstOrDefault(x => x.Nome == p.Pessoa.Nome);
 
             listaPessoa.Remove(pessoa);
             _context.SaveChanges();
@@ -64,14 +64,14 @@ namespace PIM_VIII.Models.PessoaDao.PessoaDao
             return true;
         }
 
-        public Pessoa Consulte(PessoaDTO p)
+        public Pessoa Consulte(string p)
         {
-            var pessoa = _context.Pessoa.ToList().FirstOrDefault(x => x.Nome == p.Pessoa.Nome);
+            var pessoa = _context.Pessoa.ToList().FirstOrDefault(x => x.Nome == p);
             if (pessoa == null)
             {
                 return new Pessoa
                 {
-                    Nome = p.Pessoa.Nome,
+                    Nome = p,
                     Id = 0,
                 };
             } else

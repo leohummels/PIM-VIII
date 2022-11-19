@@ -17,9 +17,9 @@ namespace PIM_VIII.Models.PessoaDao.PessoaDao
         {
             return false;
         }
-        public PessoaDTO Consulte(PessoaDTO p)
+        public Pessoa Consulte(string p)
         {
-            return new PessoaDTO();
+            return new Pessoa();
         }
 
         public List<Pessoa> ConsulteTodos()
