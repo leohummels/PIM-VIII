@@ -28,8 +28,11 @@ namespace PIM_VIII.DB
                 .Navigation(p => p.TipoTelefone)
                 .UsePropertyAccessMode(PropertyAccessMode.Property);
             modelBuilder.Entity<PessoaDTO>().HasNoKey();
+            modelBuilder.Entity<ConsultaPessoaDTO>().HasNoKey();
         }
 
         public DbSet<PIM_VIII.Models.DTO.PessoaDTO> PessoaDTO { get; set; }
+
+        public DbSet<PIM_VIII.Models.DTO.ConsultaPessoaDTO> ConsultaPessoaDTO { get; set; }
     }
 }

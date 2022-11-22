@@ -17,20 +17,41 @@ namespace PIM_VIII.Controllers
         {
             _pessoaDao = pessoaDao;
         }
-
+        
         public IActionResult Index()
+        {
+            return View(_pessoaDao.ConsulteTodos());
+        }
+
+        
+        [HttpGet("AdicionaPessoa")]
+        public IActionResult AdicionaPessoa()
         {
             return View();
         }
 
-        [HttpPost("Add")]
-        public IActionResult AdicionaPessoa(PessoaDTO Pessoa)
+        [HttpGet("ConsultaPessoa")]
+        public IActionResult ConsultaPessoa()
+        {
+            return View();
+        }
+
+        [HttpGet("PessoaEncontrada")]
+        public IActionResult PessoaEncontrada(ConsultaPessoaDTO consulta)
+        {
+            Pessoa? pessoa = _pessoaDao.Consulte(consulta.Nome);
+            return View(pessoa);
+        }
+
+
+        [HttpPost("AdicionaPessoa")]
+        public IActionResult AdicionaPessoa([FromForm]PessoaDTO Pessoa)
         {
             Pessoa pessoaDTO = new Pessoa { Nome = Pessoa.Nome,};
             bool inseriu = _pessoaDao.Insira(Pessoa);
             if (inseriu)
             {
-                return CreatedAtAction(nameof(ConsultaPessoa), new { Nome = pessoaDTO.Nome }, Pessoa);
+                return RedirectToAction("Index");
             }else
             {
                 return StatusCode(500);
@@ -39,15 +60,10 @@ namespace PIM_VIII.Controllers
         }
 
 
-        [HttpGet("{Nome}")]
-        public IActionResult ConsultaPessoa(string Nome)
-        {
-            Pessoa? pessoa = _pessoaDao.Consulte(Nome);              
-            if (pessoa == null)
-            {
-                return NotFound($"{Nome} não encontrada.");
-            }
-            return Ok(pessoa);
+        [HttpPost("ConsultaPessoa")]
+        public IActionResult ConsultaPessoa([FromForm]ConsultaPessoaDTO Pessoa)
+        {    
+            return RedirectToAction("PessoaEncontrada", Pessoa);
         }
 
         [HttpGet("All")]
