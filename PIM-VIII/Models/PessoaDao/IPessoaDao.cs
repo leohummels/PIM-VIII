@@ -17,7 +17,7 @@ namespace PIM_VIII.Models.PessoaDao.PessoaDao
         {
             return false;
         }
-        public Pessoa Consulte(string p)
+        public Pessoa Consulte(int p)
         {
             return new Pessoa();
         }

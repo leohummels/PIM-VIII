@@ -23,6 +23,22 @@ namespace PIM_VIII.Controllers
             return View(_pessoaDao.ConsulteTodos());
         }
 
+        [Route("Edit/{id}")]
+        public IActionResult EditPessoa(int id)
+        {
+            var pessoa = _pessoaDao.Consulte(id);
+            var PessoaDTO = new PessoaDTO{
+                                        Nome = pessoa.Nome,
+                                        Cpf = pessoa.Cpf,
+                                        Cidade = pessoa.Endereco.Cidade,
+                                        Logradouro = pessoa.Endereco.Logradouro,
+                                        NumeroEndereco = pessoa.Endereco.Numero,
+                                        Bairro = pessoa.Endereco.Bairro,
+                                        DDD = pessoa.Telefone.DDD,
+                                        Numero = pessoa.Telefone.Numero
+                                    };
+            return View(PessoaDTO);
+        }
         
         [HttpGet("AdicionaPessoa")]
         public IActionResult AdicionaPessoa()
@@ -30,17 +46,18 @@ namespace PIM_VIII.Controllers
             return View();
         }
 
-        [HttpGet("ConsultaPessoa")]
-        public IActionResult ConsultaPessoa()
+        [Route("Details/{id}")]
+        public IActionResult ConsultaPessoa(int id)
         {
-            return View();
+            var pessoa = _pessoaDao.Consulte(id);
+            return View(pessoa);
         }
 
-        [HttpGet("PessoaEncontrada")]
-        public IActionResult PessoaEncontrada(ConsultaPessoaDTO consulta)
+        [HttpGet("Details")]
+        public IActionResult PessoaEncontrada(Pessoa consulta)
         {
-            Pessoa? pessoa = _pessoaDao.Consulte(consulta.Nome);
-            return View(pessoa);
+            Pessoa? pessoa = _pessoaDao.Consulte(consulta.Id);
+            return View();
         }
 
 
@@ -63,7 +80,7 @@ namespace PIM_VIII.Controllers
         [HttpPost("ConsultaPessoa")]
         public IActionResult ConsultaPessoa([FromForm]ConsultaPessoaDTO Pessoa)
         {    
-            return RedirectToAction("PessoaEncontrada", Pessoa);
+            return RedirectToAction("PessoaEncontrada", "Details/{id}", Pessoa);
         }
 
         [HttpGet("All")]

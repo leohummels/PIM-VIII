@@ -15,7 +15,7 @@ namespace PIM_VIII.Models.PessoaDao.PessoaDao
         {
             //Pessoa pessoaDTO = p.Pessoa;
             var listaPessoa = _context.Pessoa.ToList();
-            var pessoa = listaPessoa.FirstOrDefault(x => x.Nome == p.Nome) ;
+            var pessoa = listaPessoa.FirstOrDefault(x => x.Nome == p.Nome);
 
             listaPessoa.Remove(pessoa);
             _context.SaveChanges();
@@ -48,32 +48,38 @@ namespace PIM_VIII.Models.PessoaDao.PessoaDao
                 Endereco = endereco,
                 Telefone = telefone
             };
-            //try
-            //{
-                pessoaDTO.Id = GetMaxId("pessoa");
-                pessoaDTO.Telefone.Id = GetMaxId("telefone");
-                pessoaDTO.Endereco.Id = GetMaxId("endereco");
-               
-                _context.Telefone.AddRange(new Telefone {
-                                            Id = pessoaDTO.Telefone.Id,
-                                            DDD = pessoaDTO.Telefone.DDD,
-                                            Numero = pessoaDTO.Telefone.Numero,
-                                            TipoTelefone = tipoTelefone
-                                           });
-                _context.Pessoa.Add(new Pessoa { 
-                                                Id = pessoaDTO.Id,
-                                                Nome = pessoaDTO.Nome,
-                                                Cpf = pessoaDTO.Cpf,
-                                                Telefone = pessoaDTO.Telefone,
-                                                Endereco = pessoaDTO.Endereco});              
-                _context.SaveChanges();
-                return true;
-            //}
-            //catch
-            //{
-            //    return false;
-            //}
+
+            pessoaDTO.Id = GetMaxId("pessoa");
+            pessoaDTO.Telefone.Id = GetMaxId("telefone");
+            pessoaDTO.Endereco.Id = GetMaxId("endereco");
+            AdicionaPessoaTelefone(pessoaDTO.Id, pessoaDTO.Telefone.Id);
+
+            _context.Telefone.AddRange(new Telefone {
+                Id = pessoaDTO.Telefone.Id,
+                DDD = pessoaDTO.Telefone.DDD,
+                Numero = pessoaDTO.Telefone.Numero,
+                TipoTelefone = tipoTelefone
+            });
+            _context.Pessoa.Add(new Pessoa {
+                Id = pessoaDTO.Id,
+                Nome = pessoaDTO.Nome,
+                Cpf = pessoaDTO.Cpf,
+                Telefone = pessoaDTO.Telefone,
+                Endereco = pessoaDTO.Endereco });
+            _context.SaveChanges();
+            return true;
         }
+
+        private bool AdicionaPessoaTelefone(int pessoaId, int TelefoneId)
+        {   
+           //_context.PessoaTelefone.AddRange(new PessoaTelefone {
+           //                                  IdPessoa= pessoaId,
+           //                                  IdTelefone = TelefoneId
+           //                                  });
+           // _context.SaveChanges();
+            return true;
+        }
+
         public bool Aletere(PessoaDTO p)
         {
             Endereco endereco = new Endereco
@@ -112,19 +118,26 @@ namespace PIM_VIII.Models.PessoaDao.PessoaDao
             return true;
         }
 
-        public Pessoa Consulte(string p)
+        public Pessoa Consulte(int p)
         {
-            var pessoa = _context.Pessoa.ToList().FirstOrDefault(x => x.Nome == p);
+            var pessoa = _context.Pessoa.ToList().Where(x => x.Id == p).FirstOrDefault();
+            var telefone = _context.Telefone.ToList().FirstOrDefault(x => x.Id == p);
+            var endereco = _context.Endereco.ToList().FirstOrDefault(x => x.Id == p);
             if (pessoa == null)
             {
                 return new Pessoa
                 {
-                    Nome = p,
+                    Nome = "Não encontrado",
                     Id = 0,
                 };
             } else
             {
-                return pessoa;
+                return new Pessoa { Id = pessoa.Id,
+                                    Nome = pessoa.Nome,
+                                    Cpf = pessoa.Cpf,
+                                    Telefone = telefone,
+                                    Endereco = endereco
+                };
             }
         }
 

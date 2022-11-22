@@ -13,12 +13,12 @@ namespace PIM_VIII.DB
         public DbSet<Pessoa> Pessoa { get; set; }
         public DbSet<Telefone> Telefone { get; set; }
         public DbSet<TipoTelefone> TipoTelefone { get; set; }
+        public DbSet<PessoaTelefone> PessoaTelefone { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Pessoa>()
-                .HasOne(p => p.Endereco)
-                .WithOne();
+                .HasOne(p => p.Endereco);
             modelBuilder.Entity<Pessoa>()
                 .Navigation(p => p.Endereco)
                 .UsePropertyAccessMode(PropertyAccessMode.Property);
@@ -27,12 +27,11 @@ namespace PIM_VIII.DB
             modelBuilder.Entity<Telefone>()
                 .Navigation(p => p.TipoTelefone)
                 .UsePropertyAccessMode(PropertyAccessMode.Property);
+            modelBuilder.Entity<PessoaTelefone>()
+                .HasKey(x => x.IdPessoa);
             modelBuilder.Entity<PessoaDTO>().HasNoKey();
-            modelBuilder.Entity<ConsultaPessoaDTO>().HasNoKey();
         }
 
         public DbSet<PIM_VIII.Models.DTO.PessoaDTO> PessoaDTO { get; set; }
-
-        public DbSet<PIM_VIII.Models.DTO.ConsultaPessoaDTO> ConsultaPessoaDTO { get; set; }
     }
 }
