@@ -1,17 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PIM_VIII.DB;
 using PIM_VIII.Models;
 using PIM_VIII.Models.DTO;
 using PIM_VIII.Models.PessoaDao.PessoaDao;
-using System.Linq;
-using System.Text.Json;
 
 namespace PIM_VIII.Controllers
 {
     [ApiController]
     [Route("pessoa")]
     
-    public class PessoaController : ControllerBase
+    public class PessoaController : Controller
     {
         private static List<Pessoa> pessoas = new List<Pessoa>();
         public IPessoaDao _pessoaDao { get; set; }
@@ -21,13 +18,19 @@ namespace PIM_VIII.Controllers
             _pessoaDao = pessoaDao;
         }
 
+        public IActionResult Index()
+        {
+            return View();
+        }
+
         [HttpPost("Add")]
         public IActionResult AdicionaPessoa(PessoaDTO Pessoa)
         {
+            Pessoa pessoaDTO = new Pessoa { Nome = Pessoa.Nome,};
             bool inseriu = _pessoaDao.Insira(Pessoa);
             if (inseriu)
             {
-                return CreatedAtAction(nameof(ConsultaPessoa), new { Nome = Pessoa.Pessoa.Nome }, Pessoa);
+                return CreatedAtAction(nameof(ConsultaPessoa), new { Nome = pessoaDTO.Nome }, Pessoa);
             }else
             {
                 return StatusCode(500);

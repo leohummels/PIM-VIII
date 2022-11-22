@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PIM_VIII.Models;
+using PIM_VIII.Models.DTO;
 
 namespace PIM_VIII.DB
 {
@@ -26,6 +27,9 @@ namespace PIM_VIII.DB
             modelBuilder.Entity<Telefone>()
                 .Navigation(p => p.TipoTelefone)
                 .UsePropertyAccessMode(PropertyAccessMode.Property);
+            modelBuilder.Entity<PessoaDTO>().HasNoKey();
         }
+
+        public DbSet<PIM_VIII.Models.DTO.PessoaDTO> PessoaDTO { get; set; }
     }
 }

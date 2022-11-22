@@ -13,8 +13,9 @@ namespace PIM_VIII.Models.PessoaDao.PessoaDao
 
         public bool Exclua(PessoaDTO p)
         {
+            //Pessoa pessoaDTO = p.Pessoa;
             var listaPessoa = _context.Pessoa.ToList();
-            var pessoa = listaPessoa.FirstOrDefault(x => x.Nome == p.Pessoa.Nome);
+            var pessoa = listaPessoa.FirstOrDefault(x => x.Nome == p.Nome) ;
 
             listaPessoa.Remove(pessoa);
             _context.SaveChanges();
@@ -23,42 +24,89 @@ namespace PIM_VIII.Models.PessoaDao.PessoaDao
 
         public bool Insira(PessoaDTO p)
         {
-            try
+            var tipoTelefone = _context.TipoTelefone.ToList().FirstOrDefault(x => x.Tipo == p.Tipo);
+            Telefone telefone = new Telefone
             {
-                p.Pessoa.Id = GetMaxId("pessoa");
-                p.Pessoa.Telefone.Id = GetMaxId("telefone");
-                p.Pessoa.Endereco.Id = GetMaxId("endereco");
-                var tipoTelefone = _context.TipoTelefone.ToList().FirstOrDefault(x => x.Id == p.Pessoa.Telefone.TipoTelefone.Id);
+                Numero = p.Numero,
+                DDD = p.DDD,
+                TipoTelefone = tipoTelefone
+
+            };
+            Endereco endereco = new Endereco
+            {
+                Bairro = p.Bairro,
+                Logradouro = p.Logradouro,
+                Cidade = p.Cidade,
+                Estado = p.Estado,
+                Cep = p.Cep,
+                Numero = p.NumeroEndereco
+            };
+            Pessoa pessoaDTO = new Pessoa
+            {
+                Nome = p.Nome,
+                Cpf = p.Cpf,
+                Endereco = endereco,
+                Telefone = telefone
+            };
+            //try
+            //{
+                pessoaDTO.Id = GetMaxId("pessoa");
+                pessoaDTO.Telefone.Id = GetMaxId("telefone");
+                pessoaDTO.Endereco.Id = GetMaxId("endereco");
+               
                 _context.Telefone.AddRange(new Telefone {
-                                            Id = p.Pessoa.Telefone.Id,
-                                            DDD = p.Pessoa.Telefone.DDD,
-                                            Numero = p.Pessoa.Telefone.Numero,
+                                            Id = pessoaDTO.Telefone.Id,
+                                            DDD = pessoaDTO.Telefone.DDD,
+                                            Numero = pessoaDTO.Telefone.Numero,
                                             TipoTelefone = tipoTelefone
                                            });
-
-                _context.Telefone.Add(p.Pessoa.Telefone);
-                _context.Pessoa.Add(p.Pessoa);              
+                _context.Pessoa.Add(new Pessoa { 
+                                                Id = pessoaDTO.Id,
+                                                Nome = pessoaDTO.Nome,
+                                                Cpf = pessoaDTO.Cpf,
+                                                Telefone = pessoaDTO.Telefone,
+                                                Endereco = pessoaDTO.Endereco});              
                 _context.SaveChanges();
                 return true;
-            }
-            catch
-            {
-                return false;
-            }
+            //}
+            //catch
+            //{
+            //    return false;
+            //}
         }
         public bool Aletere(PessoaDTO p)
         {
-            var tipoTelefone = _context.TipoTelefone.ToList().FirstOrDefault(x => x.Id == p.Pessoa.Telefone.TipoTelefone.Id);
+            Endereco endereco = new Endereco
+            {
+                Bairro = p.Bairro,
+                Logradouro = p.Logradouro,
+                Cidade = p.Cidade,
+                Estado = p.Estado,
+                Cep = p.Cep,
+                Numero = p.NumeroEndereco
+            };
+            Pessoa pessoaDTO = new Pessoa
+            {
+                Nome = p.Nome,
+                Cpf = p.Cpf,
+                Endereco = endereco,
+            };
+            var tipoTelefone = _context.TipoTelefone.ToList().FirstOrDefault(x => x.Tipo == p.Tipo);
             _context.Telefone.AddRange(new Telefone
             {
-                Id = p.Pessoa.Telefone.Id,
-                DDD = p.Pessoa.Telefone.DDD,
-                Numero = p.Pessoa.Telefone.Numero,
+                Id = pessoaDTO.Telefone.Id,
+                DDD = pessoaDTO.Telefone.DDD,
+                Numero = pessoaDTO.Telefone.Numero,
                 TipoTelefone = tipoTelefone
             });
 
-            _context.Telefone.Add(p.Pessoa.Telefone);
-            _context.Pessoa.Add(p.Pessoa);
+            _context.Telefone.Add(pessoaDTO.Telefone);
+            _context.Pessoa.Add(new Pessoa { 
+                                            Id = pessoaDTO.Id,
+                                            Nome = pessoaDTO.Nome,
+                                            Cpf = pessoaDTO.Cpf,
+                                            Telefone = pessoaDTO.Telefone,
+                                            Endereco = pessoaDTO.Endereco});
             _context.SaveChanges();
             
             return true;
