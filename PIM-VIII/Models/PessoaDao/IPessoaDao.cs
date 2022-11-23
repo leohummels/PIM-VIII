@@ -5,7 +5,7 @@ namespace PIM_VIII.Models.PessoaDao.PessoaDao
     public interface IPessoaDao
     {
 
-        public bool Exclua(PessoaDTO p)
+        public bool Exclua(int p)
         {
             return false;
         }
@@ -13,7 +13,7 @@ namespace PIM_VIII.Models.PessoaDao.PessoaDao
         {
             return false;
         }
-        public bool Aletere(PessoaDTO p)
+        public bool Aletere(PessoaDTO p, int i)
         {
             return false;
         }

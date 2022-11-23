@@ -39,11 +39,34 @@ namespace PIM_VIII.Controllers
                                     };
             return View(PessoaDTO);
         }
+
+        [HttpPost("Edit/{Id}")]
+        public IActionResult EditPessoa([FromForm]PessoaDTO pessoaDTO, int id)
+        {
+            var pessoa = _pessoaDao.Aletere(pessoaDTO,id);
+            return RedirectToAction("Index");
+        }
         
         [HttpGet("AdicionaPessoa")]
         public IActionResult AdicionaPessoa()
         {
             return View();
+        }
+
+        [HttpPost("AdicionaPessoa")]
+        public IActionResult AdicionaPessoa([FromForm] PessoaDTO Pessoa)
+        {
+            Pessoa pessoaDTO = new Pessoa { Nome = Pessoa.Nome, };
+            bool inseriu = _pessoaDao.Insira(Pessoa);
+            if (inseriu)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return StatusCode(500);
+            }
+
         }
 
         [Route("Details/{id}")]
@@ -61,22 +84,6 @@ namespace PIM_VIII.Controllers
         }
 
 
-        [HttpPost("AdicionaPessoa")]
-        public IActionResult AdicionaPessoa([FromForm]PessoaDTO Pessoa)
-        {
-            Pessoa pessoaDTO = new Pessoa { Nome = Pessoa.Nome,};
-            bool inseriu = _pessoaDao.Insira(Pessoa);
-            if (inseriu)
-            {
-                return RedirectToAction("Index");
-            }else
-            {
-                return StatusCode(500);
-            }
-                
-        }
-
-
         [HttpPost("ConsultaPessoa")]
         public IActionResult ConsultaPessoa([FromForm]ConsultaPessoaDTO Pessoa)
         {    
@@ -90,20 +97,11 @@ namespace PIM_VIII.Controllers
             return Ok(listaPessoas);
         }
 
-        [HttpPut]
-        public void AlterePessoa(Pessoa Pessoa)
+        [Route("Delete/{id}")]
+        public IActionResult ExcluaPessoa(int id)
         {
-            var pessoa = pessoas.FirstOrDefault(x => x.Nome == Pessoa.Nome);
-            if(pessoa == null){ return; }
-            pessoas.Add(pessoa);
-        }
-
-        [HttpDelete]
-        public void ExcluaPessoa(Pessoa Pessoa)
-        {
-            var pessoa = pessoas.FirstOrDefault(x => x.Nome == Pessoa.Nome);
-            if (pessoa == null) { return; }
-            pessoas.Remove(pessoa);
+            _pessoaDao.Exclua(id);
+            return RedirectToAction("Index");
 
         }
     }

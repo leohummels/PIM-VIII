@@ -1,5 +1,6 @@
 ﻿using PIM_VIII.DB;
 using PIM_VIII.Models.DTO;
+using System.ComponentModel;
 
 namespace PIM_VIII.Models.PessoaDao.PessoaDao
 {
@@ -11,13 +12,16 @@ namespace PIM_VIII.Models.PessoaDao.PessoaDao
             _context = context;
         }
 
-        public bool Exclua(PessoaDTO p)
+        public bool Exclua(int i)
         {
             //Pessoa pessoaDTO = p.Pessoa;
             var listaPessoa = _context.Pessoa.ToList();
-            var pessoa = listaPessoa.FirstOrDefault(x => x.Nome == p.Nome);
-
-            listaPessoa.Remove(pessoa);
+            var pessoa = _context.Pessoa.ToList().FirstOrDefault(x => x.Id == i);
+            var telefoneId = _context.Telefone.ToList().FirstOrDefault(x => x.Id == i);
+            var enderecoId = _context.Endereco.ToList().FirstOrDefault(x => x.Id == i);
+            _context.Pessoa.Remove(pessoa);
+            _context.Telefone.Remove(telefoneId);
+            _context.Endereco.Remove(enderecoId);
             _context.SaveChanges();
             return true;
         }
@@ -80,8 +84,24 @@ namespace PIM_VIII.Models.PessoaDao.PessoaDao
             return true;
         }
 
-        public bool Aletere(PessoaDTO p)
+        public bool Aletere(PessoaDTO p, int i)
         {
+            var pessoa = _context.Pessoa.ToList().FirstOrDefault(x => x.Id == i);
+            var telefoneId = _context.Telefone.ToList().FirstOrDefault(x => x.Id == i);
+            var enderecoId = _context.Endereco.ToList().FirstOrDefault(x => x.Id == i);
+            _context.Pessoa.Remove(pessoa);
+            _context.Telefone.Remove(telefoneId);
+            _context.Endereco.Remove(enderecoId);
+            _context.SaveChanges();
+
+            var tipoTelefone = _context.TipoTelefone.ToList().FirstOrDefault(x => x.Tipo == p.Tipo);
+            Telefone telefone = new Telefone
+            {
+                Numero = p.Numero,
+                DDD = p.DDD,
+                TipoTelefone = tipoTelefone
+
+            };
             Endereco endereco = new Endereco
             {
                 Bairro = p.Bairro,
@@ -96,8 +116,14 @@ namespace PIM_VIII.Models.PessoaDao.PessoaDao
                 Nome = p.Nome,
                 Cpf = p.Cpf,
                 Endereco = endereco,
+                Telefone = telefone
             };
-            var tipoTelefone = _context.TipoTelefone.ToList().FirstOrDefault(x => x.Tipo == p.Tipo);
+
+            pessoaDTO.Id = i;
+            pessoaDTO.Telefone.Id = telefoneId.Id;
+            pessoaDTO.Endereco.Id = enderecoId.Id;
+            AdicionaPessoaTelefone(pessoaDTO.Id, pessoaDTO.Telefone.Id);
+
             _context.Telefone.AddRange(new Telefone
             {
                 Id = pessoaDTO.Telefone.Id,
@@ -105,16 +131,15 @@ namespace PIM_VIII.Models.PessoaDao.PessoaDao
                 Numero = pessoaDTO.Telefone.Numero,
                 TipoTelefone = tipoTelefone
             });
-
-            _context.Telefone.Add(pessoaDTO.Telefone);
-            _context.Pessoa.Add(new Pessoa { 
-                                            Id = pessoaDTO.Id,
-                                            Nome = pessoaDTO.Nome,
-                                            Cpf = pessoaDTO.Cpf,
-                                            Telefone = pessoaDTO.Telefone,
-                                            Endereco = pessoaDTO.Endereco});
+            _context.Pessoa.Add(new Pessoa
+            {
+                Id = pessoaDTO.Id,
+                Nome = pessoaDTO.Nome,
+                Cpf = pessoaDTO.Cpf,
+                Telefone = pessoaDTO.Telefone,
+                Endereco = pessoaDTO.Endereco
+            });
             _context.SaveChanges();
-            
             return true;
         }
 
