@@ -7,8 +7,8 @@ namespace PIM_VIII.Models
     public class PessoaTelefone
     {
         [Key]
-        public int IdPessoa { get; set; }
-        [ForeignKey("ID_TELEFONE")]
-        public int IdTelefone { get; set;}
+        public int Id { get; set; }
+        public int Id_Pessoa { get; set; }
+        public int Id_Telefone { get; set;}
     }
 }

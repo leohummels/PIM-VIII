@@ -27,8 +27,6 @@ namespace PIM_VIII.DB
             modelBuilder.Entity<Telefone>()
                 .Navigation(p => p.TipoTelefone)
                 .UsePropertyAccessMode(PropertyAccessMode.Property);
-            modelBuilder.Entity<PessoaTelefone>()
-                .HasKey(x => x.IdPessoa);
             modelBuilder.Entity<PessoaDTO>().HasNoKey();
         }
 

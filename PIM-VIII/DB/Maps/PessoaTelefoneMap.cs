@@ -8,9 +8,10 @@ namespace PIM_VIII.DB.Maps
     {
         public void Configure(EntityTypeBuilder<PessoaTelefone> builder)
         {
-            builder.ToTable("pessoas_schema.pessoatelefone");
-            builder.HasKey(x => x.IdPessoa);
-            builder.Property(x => x.IdTelefone).HasColumnName("ID_TELEFONE");
+            builder.ToTable("pessoas_schema.pessoa_telefone");
+            builder.HasKey(x => x.Id);
+            builder.Property(x => x.Id_Pessoa).HasColumnName("ID_TELEFONE");
+            builder.Property(x => x.Id_Telefone).HasColumnName("ID_TELEFONE");
         }
     }
 }

@@ -53,10 +53,19 @@ namespace PIM_VIII.Models.PessoaDao.PessoaDao
                 Telefone = telefone
             };
 
-            pessoaDTO.Id = GetMaxId("pessoa");
-            pessoaDTO.Telefone.Id = GetMaxId("telefone");
-            pessoaDTO.Endereco.Id = GetMaxId("endereco");
-            AdicionaPessoaTelefone(pessoaDTO.Id, pessoaDTO.Telefone.Id);
+            if(_context.Pessoa.ToList().Count() == 0)
+            {
+                pessoaDTO.Id = 1;
+                pessoaDTO.Telefone.Id = 1;
+                pessoaDTO.Endereco.Id = 1;
+            } else
+            {
+                pessoaDTO.Id = GetMaxId("pessoa");
+                pessoaDTO.Telefone.Id = GetMaxId("telefone");
+                pessoaDTO.Endereco.Id = GetMaxId("endereco");
+
+                                                    
+            }
 
             _context.Telefone.AddRange(new Telefone {
                 Id = pessoaDTO.Telefone.Id,
@@ -71,16 +80,18 @@ namespace PIM_VIII.Models.PessoaDao.PessoaDao
                 Telefone = pessoaDTO.Telefone,
                 Endereco = pessoaDTO.Endereco });
             _context.SaveChanges();
+            AdicionaPessoaTelefone(pessoaDTO.Id, pessoaDTO.Telefone.Id);
             return true;
         }
 
         private bool AdicionaPessoaTelefone(int pessoaId, int TelefoneId)
         {   
-           //_context.PessoaTelefone.AddRange(new PessoaTelefone {
-           //                                  IdPessoa= pessoaId,
-           //                                  IdTelefone = TelefoneId
-           //                                  });
-           // _context.SaveChanges();
+           _context.PessoaTelefone.AddRange(new PessoaTelefone {
+                                             Id = GetMaxId("pessoaTelefone"),
+                                             Id_Pessoa= pessoaId,
+                                             Id_Telefone = TelefoneId
+                                             });
+            _context.SaveChanges();
             return true;
         }
 
@@ -187,6 +198,9 @@ namespace PIM_VIII.Models.PessoaDao.PessoaDao
                     break;
                 case "tipoTelefone":
                     maxId = _context.TipoTelefone.ToList().Select(x => x.Id).Max() + 1;
+                    break;
+                case "pessoaTelefone":
+                    maxId = _context.PessoaTelefone.ToList().Select(x => x.Id).Max() + 1;
                     break;
                 default: return maxId;
             }
