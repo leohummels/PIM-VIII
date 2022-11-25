@@ -1,7 +1,7 @@
 ﻿{
   "iisSettings": {
     "windowsAuthentication": false,
-    "anonymousAuthentication": true,
+    "anonymousAuthentication": false,
     "iisExpress": {
       "applicationUrl": "http://localhost:41096",
       "sslPort": 0
@@ -12,14 +12,15 @@
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
-      "applicationUrl": "http://localhost:5186",
+      "applicationUrl": "http://localhost:44347/",
+      "launchUrl": "pessoa",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
     "IIS Express": {
       "commandName": "IISExpress",
-      "launchBrowser": true,
+      "launchBrowser": false,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

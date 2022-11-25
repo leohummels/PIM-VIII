@@ -10,7 +10,7 @@
 <body>
     <form id="form1" runat="server">
         <div margin="150px">
-            <iframe src="http://localhost:5186/pessoa" sandbox="allow-same-origin" height="760x" width="1340px"></iframe>
+            <iframe src="http://localhost:5186/pessoa" sandbox="allow-forms allow-scripts" height="760x" width="1340px"></iframe>
         </div>
     </form>
 </body>
