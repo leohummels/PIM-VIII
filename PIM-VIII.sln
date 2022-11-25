@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PIM-VIII", "PIM-VIII\PIM-VI
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PIMVII-projetoFinal", "PIMVII-projetoFinal\PIMVII-projetoFinal.csproj", "{F6C8ED06-7665-499C-8573-D6BA1B8E544B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication3", "WebApplication3\WebApplication3.csproj", "{2BF4FF5D-3852-424A-8BD1-37D77DC019CD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{F6C8ED06-7665-499C-8573-D6BA1B8E544B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6C8ED06-7665-499C-8573-D6BA1B8E544B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6C8ED06-7665-499C-8573-D6BA1B8E544B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BF4FF5D-3852-424A-8BD1-37D77DC019CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BF4FF5D-3852-424A-8BD1-37D77DC019CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BF4FF5D-3852-424A-8BD1-37D77DC019CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BF4FF5D-3852-424A-8BD1-37D77DC019CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
